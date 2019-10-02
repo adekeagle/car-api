@@ -15,8 +15,12 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class CarApi {
 
-    @Autowired
     private CarService carService;
+
+    @Autowired
+    public CarApi(CarService carService) {
+        this.carService = carService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Car>> getCars(){
