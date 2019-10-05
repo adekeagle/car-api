@@ -34,9 +34,8 @@ public class CarApi {
         Optional<Car> firstCar = carService.getFirst(id);
         if(firstCar.isPresent()){
             return new ResponseEntity<>(firstCar.get(), HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/color/{color}",
@@ -44,11 +43,10 @@ public class CarApi {
                             MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Car>> getCarsByColor(@PathVariable String color){
         List<Car> carList = carService.getAllCarsByColor(color);
-        if(carList.size()>0){
+        if(!carList.isEmpty()){
             return new ResponseEntity<>(carList, HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping(value = "/addCar",
@@ -58,23 +56,19 @@ public class CarApi {
         boolean newCar = carService.addCar(car);
         if(newCar){
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }else {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PutMapping(value = "/modCar",
                 produces = {MediaType.APPLICATION_JSON_VALUE,
                             MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity changeCar(@RequestBody Car car){
-
         boolean makeChange = carService.changeCar(car);
-
         if(makeChange){
             return new ResponseEntity<>(HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PatchMapping(value = "/{id}",
@@ -84,9 +78,8 @@ public class CarApi {
                                          @PathVariable long id){
         if(carService.changeColorOfCar(newColor, id)){
             return new ResponseEntity(HttpStatus.OK);
-        }else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping(value = "/{id}",
@@ -95,8 +88,7 @@ public class CarApi {
     public ResponseEntity deleteCar(@PathVariable long id){
         if(carService.deleteCar(id)){
             return new ResponseEntity(HttpStatus.OK);
-        }else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 }

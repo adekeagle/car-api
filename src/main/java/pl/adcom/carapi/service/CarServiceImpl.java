@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Service
 public class CarServiceImpl implements CarService{
 
-    List<Car> listCars;
+    private List<Car> listCars;
 
     public CarServiceImpl() {
         listCars = new ArrayList<>();
@@ -28,14 +28,12 @@ public class CarServiceImpl implements CarService{
 
     @Override
     public Optional<Car> getFirst(long id) {
-        Optional<Car> first = listCars.stream().filter(car -> car.getId() == id).findFirst();
-        return first;
+        return listCars.stream().filter(car -> car.getId() == id).findFirst();
     }
 
     @Override
     public List<Car> getAllCarsByColor(String color) {
-        List<Car> allCars = listCars.stream().filter(car1 -> car1.getColor().equals(color)).collect(Collectors.toList());
-        return allCars;
+        return listCars.stream().filter(car1 -> car1.getColor().equals(color)).collect(Collectors.toList());
     }
 
     @Override
@@ -60,9 +58,7 @@ public class CarServiceImpl implements CarService{
         Optional<Car> modCarColor = listCars.stream().filter(car -> car.getId() == id).findFirst();
 
         if(modCarColor.isPresent()){
-            listCars.remove(modCarColor.get());
             modCarColor.get().setColor(color);
-            listCars.add(modCarColor.get());
             return true;
         }
         return false;
